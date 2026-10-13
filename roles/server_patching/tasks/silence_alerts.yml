@@ -1,0 +1,29 @@
+---
+- name: Set temporary Alertmanager silence for patching window
+  ansible.builtin.uri:
+    url: "http://{{ alertmanager_host | default('localhost') }}:9093/api/v2/silences"
+    method: POST
+    body_format: json
+    body:
+      matchers:
+        - name: "instance"
+          value: "{{ inventory_hostname }}"
+          isRegex: false
+      startsAt: "{{ lookup('pipe', 'date -u +%Y-%m-%dT%H:%M:%SZ') }}"
+      endsAt: "{{ lookup('pipe', 'date -u -d \"+1 hour\" +%Y-%m-%dT%H:%M:%SZ') }}"
+      createdBy: "Ansible Patching Engine"
+      comment: "Automated maintenance window for system patching on {{ inventory_hostname }}"
+    status_code: [200, 201]
+  register: alertmanager_silence_response
+  delegate_to: localhost
+  become: false
+  when: enable_alertmanager | default(false) | bool
+  ignore_errors: true
+
+- name: Store Silence ID for cleanup
+  ansible.builtin.set_fact:
+    active_silence_id: "{{ alertmanager_silence_response.json.silenceID | default('') }}"
+  when: 
+    - enable_alertmanager | default(false) | bool
+    - alertmanager_silence_response.status is defined 
+    - alertmanager_silence_response.status in [200, 201]

@@ -1,0 +1,13 @@
+---
+- name: Expire Alertmanager silence after successful maintenance
+  ansible.builtin.uri:
+    url: "http://{{ alertmanager_host | default('localhost') }}:9093/api/v2/silence/{{ active_silence_id }}"
+    method: DELETE
+    status_code: [200, 202]
+  delegate_to: localhost
+  become: false
+  when: 
+    - enable_alertmanager | default(false) | bool
+    - active_silence_id is defined 
+    - active_silence_id != ""
+  ignore_errors: true

@@ -2,7 +2,10 @@
 - name: Step 1 - Execute Pre-Flight Health Checks
   ansible.builtin.include_tasks: pre_checks.yml
 
-- name: Step 2 - Execute OS-Specific Patching with Safe Exception Handling
+- name: Step 2 - Enable Alertmanager Maintenance Silence
+  ansible.builtin.include_tasks: silence_alerts.yml
+
+- name: Step 3 - Execute OS Patching Routine
   block:
     - name: Run Ubuntu Patching Routine
       ansible.builtin.include_tasks: update_ubuntu.yml
@@ -16,3 +19,7 @@
     - name: Handle Patching Failure Safely
       ansible.builtin.fail:
         msg: "CRITICAL INCIDENT: Patching process failed on {{ inventory_hostname }}. Halting execution."
+
+  always:
+    - name: Step 4 - Clear Alertmanager Maintenance Silence
+      ansible.builtin.include_tasks: unsilence_alerts.yml
