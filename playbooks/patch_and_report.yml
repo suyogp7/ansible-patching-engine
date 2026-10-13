@@ -6,3 +6,14 @@
 
   roles:
     - server_patching
+
+- name: Generate Aggregated HTML Compliance Dashboard
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Compile JSON reports into HTML dashboard
+      ansible.builtin.template:
+        src: "{{ playbook_dir }}/../roles/server_patching/templates/audit_dashboard.html.j2"
+        dest: "{{ playbook_dir }}/../reports/compliance_dashboard.html"
+      vars:
+        report_files: "{{ query('fileglob', playbook_dir ~ '/../reports/audit_*.json') }}"

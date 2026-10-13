@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enterprise Patching Audit Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f4f7f6; color: #333; }
+        h1 { color: #0275d8; }
+        table { width: 100%; border-collapse: collapse; background: #fff; margin-top: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        th, td { padding: 12px 15px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #0275d8; color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .reboot-true { color: #d9534f; font-weight: bold; }
+        .reboot-false { color: #5cb85c; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Enterprise Patching Audit Dashboard</h1>
+    <p>Report compiled locally on control node.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Hostname</th>
+                <th>OS Family</th>
+                <th>Distribution</th>
+                <th>Kernel</th>
+                <th>Patch Timestamp (UTC)</th>
+                <th>Reboot Required</th>
+            </tr>
+        </thead>
+        <tbody>
+                                            <tr>
+                    <td>target2</td>
+                    <td>RedHat</td>
+                    <td>RedHat 9.3</td>
+                    <td>5.14.0-362.8.1.el9_3.x86_64</td>
+                    <td>2026-10-13T20:03:06Z</td>
+                    <td class="reboot-false">False</td>
+                </tr>
+                                            <tr>
+                    <td>target1</td>
+                    <td>Debian</td>
+                    <td>Ubuntu 22.04</td>
+                    <td>5.15.0-198-generic</td>
+                    <td>2026-10-13T20:03:06Z</td>
+                    <td class="reboot-false">False</td>
+                </tr>
+                    </tbody>
+    </table>
+</body>
+</html>
