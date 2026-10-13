@@ -3,6 +3,6 @@
   "os_family": "RedHat",
   "distribution": "RedHat 9.3",
   "kernel": "5.14.0-362.8.1.el9_3.x86_64",
-  "patch_timestamp": "2026-10-13T20:03:06Z",
+  "patch_timestamp": "2026-10-13T20:11:51Z",
   "reboot_required": "False"
 }
