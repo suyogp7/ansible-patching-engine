@@ -1,0 +1,8 @@
+{
+  "hostname": "target1",
+  "os_family": "Debian",
+  "distribution": "Ubuntu 22.04",
+  "kernel": "5.15.0-198-generic",
+  "patch_timestamp": "2026-10-13T19:41:16Z",
+  "reboot_required": "False"
+}

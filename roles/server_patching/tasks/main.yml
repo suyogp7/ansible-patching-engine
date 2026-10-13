@@ -23,3 +23,6 @@
   always:
     - name: Step 4 - Clear Alertmanager Maintenance Silence
       ansible.builtin.include_tasks: unsilence_alerts.yml
+
+- name: Step 5 - Generate Compliance Audit Report
+  ansible.builtin.include_tasks: audit_report.yml
