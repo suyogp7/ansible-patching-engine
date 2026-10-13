@@ -1,0 +1,17 @@
+---
+- name: Upgrade all packages on RHEL using DNF
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+  register: rhel_upgrade
+
+- name: Check if reboot is required on RHEL
+  ansible.builtin.command: needs-restarting -r
+  register: rhel_reboot_status
+  failed_when: rhel_reboot_status.rc > 1
+  changed_when: false
+
+- name: Notify RHEL reboot status
+  ansible.builtin.debug:
+    msg: "System kernel/packages updated. Reboot recommendation code: {{ rhel_reboot_status.rc }}"
+  when: rhel_reboot_status.rc == 1

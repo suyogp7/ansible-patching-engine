@@ -1,0 +1,13 @@
+---
+- name: Extract available disk space on root volume from Ansible facts
+  ansible.builtin.set_fact:
+    root_free_mb: "{{ (ansible_facts['mounts'] | selectattr('mount', 'equalto', '/') | map(attribute='size_available') | first | int) / 1024 / 1024 }}"
+
+- name: Fail if root disk space is below 1500MB
+  ansible.builtin.fail:
+    msg: "ABORT: Insufficient disk space on {{ inventory_hostname }}. Available: {{ root_free_mb | int }}MB."
+  when: root_free_mb | int < 1500
+
+- name: Display pre-check validation success
+  ansible.builtin.debug:
+    msg: "Pre-flight checks passed successfully on {{ inventory_hostname }}. Available space: {{ root_free_mb | int }}MB."
